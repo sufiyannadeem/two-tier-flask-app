@@ -1,30 +1,33 @@
-pipeline {
-    agent any
+pipeline{
+    agent any;
     
     stages{
-        stage("Code"){
+        stage("code"){
             steps{
-                git url: "https://github.com/LondheShubham153/two-tier-flask-app.git", branch: "jenkins"
+                git url: "https://github.com/sufiyannadeem/two-tier-flask-app.git" ,branch: "master"
             }
         }
-        stage("Build & Test"){
+        stage("build & test"){
             steps{
                 sh "docker build . -t flaskapp"
             }
         }
-        stage("Push to DockerHub"){
+       stage("push to dockerhub"){
+           steps{
+               withCredentials([usernamePassword(credentialsId:"Dockerhubcreds",
+               passwordVariable:"DockerHubpass",usernameVariable:"DockerHubUser")]){
+                   sh "docker login -u ${env.DockerHubUser} -p ${env.DockerHubpass}"
+                   sh "docker tag flaskapp ${env.DockerHubUser}/flaskapp:latest"
+                   sh "docker push ${env.DockerHubUser}/flaskapp:latest"
+               }
+           }
+       }
+        stage("deploy"){
             steps{
-                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                    sh "docker tag flaskapp ${env.dockerHubUser}/flaskapp:latest"
-                    sh "docker push ${env.dockerHubUser}/flaskapp:latest" 
-                }
-            }
-        }
-        stage("Deploy"){
-            steps{
-                sh "docker-compose down && docker-compose up -d"
+                sh "docker compose up -d --build flask-app "
             }
         }
     }
+    
+    
 }
