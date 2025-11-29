@@ -9,7 +9,7 @@ pipeline{
         }
         stage("Trivy File System Scan"){
             steps{
-               sh "trivy fs ."
+               sh "trivy fs . > trivy-fs-scan.txt"
             }
         }
         stage("build & test"){
