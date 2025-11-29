@@ -28,6 +28,25 @@ pipeline{
             }
         }
     }
-    
+post{
+    success{
+        script{
+            emailext from: "nadeemsufiyan149@gmail.com",
+            to: "nadeemsufiyan149@gmail.com",
+            body: "build success for test1 flask-app",
+            subject: "build success"
+        }
+    }
+ 
+    failure{
+        script{
+            emailext from: "nadeemsufiyan149@gmail.com",
+            to: "nadeemsufiyan149@gmail.com",
+            body: "build fail for test1 flask-app",
+            subject: "build failed" 
+        }
+    }
+}
+
     
 }
