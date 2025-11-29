@@ -7,6 +7,13 @@ pipeline{
                 git url: "https://github.com/sufiyannadeem/two-tier-flask-app.git" ,branch: "master"
             }
         }
+        stage("Trivy File System Scan"){
+            steps{
+                script{
+                    trivy_fs()
+                }
+            }
+        }
         stage("build & test"){
             steps{
                 sh "docker build . -t flaskapp"
