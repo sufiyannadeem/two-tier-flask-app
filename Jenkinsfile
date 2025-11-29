@@ -39,7 +39,7 @@ post{
             emailext from: "nadeemsufiyan149@gmail.com",
             to: "nadeemsufiyan149@gmail.com",
             body: "build success for test1 flask-app",
-            subject: "build success"
+            subject: "no-reply build success"
         }
     }
  
@@ -48,7 +48,7 @@ post{
             emailext from: "nadeemsufiyan149@gmail.com",
             to: "nadeemsufiyan149@gmail.com",
             body: "build fail for test1 flask-app",
-            subject: "build failed" 
+            subject: "no-reply build failed" 
         }
     }
 }
